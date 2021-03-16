@@ -1,0 +1,12 @@
+﻿OpPDir
+
+Problem mit: //  47  49 = %USERPROFILE%\AppData\Local\Microsoft\WindowsApps
+Loesung: string expandPath = System.Environment.ExpandEnvironmentVariables( onePath );
+
+Deploy:
+=======
+C:\s
+G:\software\Atrium\InstallTools\OpTools\DOS_Tools_S
+G:\programme\Tools\OpTools\DOS_Tools_S
+
+-eot-
