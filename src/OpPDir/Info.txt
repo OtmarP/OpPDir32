@@ -6,7 +6,7 @@ Loesung: string expandPath = System.Environment.ExpandEnvironmentVariables( oneP
 Deploy:
 =======
 C:\s
-G:\software\Atrium\InstallTools\OpTools\DOS_Tools_S
+G:\software\...\InstallTools\OpTools\DOS_Tools_S
 G:\programme\Tools\OpTools\DOS_Tools_S
 
 -eot-
