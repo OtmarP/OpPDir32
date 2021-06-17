@@ -14,7 +14,7 @@ namespace OpPDir
 
         public static string VersionNumber = "";
 
-        static void Main( string[] args )
+        static void Main(string[] args)
         {
             // History
             // -------------------------------------------------
@@ -25,23 +25,23 @@ namespace OpPDir
 
             System.Diagnostics.Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
             string moduleName = currentProcess.MainModule.ModuleName;
-            bool launchedFromStudio = moduleName.Contains( ".vshost" );
+            bool launchedFromStudio = moduleName.Contains(".vshost");
 
             AddRDToVersion();   // "1.0.16.715.D", "1.0.16.715.R"
-            AddDEVToVersion( launchedFromStudio );
+            AddDEVToVersion(launchedFromStudio);
 
 
-            Console.WriteLine( "OpPDir v:" + VersionNumber );
-            Console.WriteLine( "-----------------------------------------------------------------------------" );
+            Console.WriteLine("OpPDir v:" + VersionNumber);
+            Console.WriteLine("-----------------------------------------------------------------------------");
 
             // Check Parameter
             // Parameter: keine, oder Pattern (b*.exe)
             string pattern = "";
-            if( args.Length == 0 )
+            if (args.Length == 0)
             {
                 // no Parameter
             }
-            else if( args.Length >= 1 )
+            else if (args.Length >= 1)
             {
                 pattern = args[0];
             }
@@ -59,7 +59,7 @@ namespace OpPDir
 #endif
 
             string curDir = System.IO.Directory.GetCurrentDirectory();
-            string sysPath = System.Environment.GetEnvironmentVariable( "path" );
+            string sysPath = System.Environment.GetEnvironmentVariable("path");
 
             // Make List of Path + GetCurrentDirectory
             int pathIndex = 0;
@@ -74,18 +74,19 @@ namespace OpPDir
             // Check
             //  47  49 = %USERPROFILE%\AppData\Local\Microsoft\WindowsApps
 
-            if( System.IO.Directory.Exists( path.Name ) ){
+            if (System.IO.Directory.Exists(path.Name))
+            {
                 path.Exists = true;
             }
-            pathList.Add( path );
+            pathList.Add(path);
             pathIndex++;
             // from PATH
-            var pathSplit = sysPath.Split( ';' );
-            for( int i = 0; i < pathSplit.Length; i++ )
+            var pathSplit = sysPath.Split(';');
+            for (int i = 0; i < pathSplit.Length; i++)
             {
                 string onePath = pathSplit[i];
 
-                string expandPath = System.Environment.ExpandEnvironmentVariables( onePath );
+                string expandPath = System.Environment.ExpandEnvironmentVariables(onePath);
 
                 path = new Path();
                 path.Number = pathIndex;
@@ -93,15 +94,15 @@ namespace OpPDir
                 path.ExpandName = expandPath;
                 path.IsCurrentDirectory = false;
                 path.Exists = false;
-                if( System.IO.Directory.Exists( path.ExpandName ) )
+                if (System.IO.Directory.Exists(path.ExpandName))
                 {
                     path.Exists = true;
                 }
-                pathList.Add( path );
+                pathList.Add(path);
                 pathIndex++;
             }
 
-            if( pattern == "" )
+            if (pattern == "")
             {
                 // Display:
                 // Current    = C:\S
@@ -117,39 +118,41 @@ namespace OpPDir
                 //   8 242 = c:\PROGRA~1\MICROS~
                 // -----------------------------------------------------------------------------
 
-                Console.WriteLine( "Current = " + curDir );
-                Console.WriteLine( "PATH    = " + sysPath );
-                Console.WriteLine( "Cnt Len = Path" );
-                Console.WriteLine( "-----------------------------------------------------------------------------" );
+                Console.WriteLine("Current = " + curDir);
+                Console.WriteLine("PATH    = " + sysPath);
+                Console.WriteLine("Cnt Len = Path");
+                Console.WriteLine("-----------------------------------------------------------------------------");
                 //                  ### ### = xxx...
                 //var pathList = sysPath.Split( ';' );
-                for( int i = 0; i < pathList.Count; i++ )
+                for (int i = 0; i < pathList.Count; i++)
                 {
                     string disp = "";
 
                     string cnt = i.ToString();
                     string length = pathList[i].Name.Length.ToString();
 
-                    disp = disp + cnt.PadLeft( _LEN_PATH, ' ' );
+                    disp = disp + cnt.PadLeft(_LEN_PATH, ' ');
                     disp = disp + " ";
-                    disp = disp + length.PadLeft( _LEN_P_LEN, ' ' );
+                    disp = disp + length.PadLeft(_LEN_P_LEN, ' ');
                     disp = disp + " = ";
                     disp = disp + pathList[i].Name;
-                    if (pathList[i].Name!= pathList[i].ExpandName )
+                    if (pathList[i].Name != pathList[i].ExpandName)
                     {
                         disp = disp + " ";
                         disp = disp + "=> " + pathList[i].ExpandName + "";
                     }
-                    if( pathList[i].IsCurrentDirectory ){
+                    if (pathList[i].IsCurrentDirectory)
+                    {
                         disp = disp + " (=CurDir)";
                     }
-                    if( !pathList[i].Exists ){
+                    if (!pathList[i].Exists)
+                    {
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
-                    Console.WriteLine( disp );
+                    Console.WriteLine(disp);
                     Console.ResetColor();
                 }
-                Console.WriteLine( "-----------------------------------------------------------------------------" );
+                Console.WriteLine("-----------------------------------------------------------------------------");
             }
             else
             {
@@ -182,10 +185,10 @@ namespace OpPDir
                 int countFoundFiles = 0;
                 long sumSizeFoundFiles = 0;
 
-                Console.WriteLine( "Search for " + pattern );
-                Console.WriteLine( "-----------------------------------------------------------------------------" );
+                Console.WriteLine("Search for " + pattern);
+                Console.WriteLine("-----------------------------------------------------------------------------");
                 //var pathList = sysPath.Split( ';' );
-                for( int i = 0; i < pathList.Count; i++ )
+                for (int i = 0; i < pathList.Count; i++)
                 {
                     bool exists = true;
 
@@ -193,18 +196,19 @@ namespace OpPDir
 
                     string cnt = i.ToString();
 
-                    disp = disp + cnt.PadLeft( _LEN_PATH, ' ' );
+                    disp = disp + cnt.PadLeft(_LEN_PATH, ' ');
                     disp = disp + " ";
                     disp = disp + pathList[i].Name;
-                    if( pathList[i].Name != pathList[i].ExpandName ) {
+                    if (pathList[i].Name != pathList[i].ExpandName)
+                    {
                         disp = disp + " ";
                         disp = disp + "=> " + pathList[i].ExpandName + "";
                     }
-                    if( pathList[i].IsCurrentDirectory )
+                    if (pathList[i].IsCurrentDirectory)
                     {
                         disp = disp + " (=CurDir)";
                     }
-                    if( !pathList[i].Exists )
+                    if (!pathList[i].Exists)
                     {
                         exists = false;
                     }
@@ -217,23 +221,23 @@ namespace OpPDir
                     string[] fileList = new string[] { };
                     try
                     {
-                        if( pathList[i].Exists )
+                        if (pathList[i].Exists)
                         {
                             string onePath = pathList[i].Name;
                             onePath = pathList[i].ExpandName;
                             //fileList = System.IO.Directory.GetFiles( onePath, pattern );
-                            if( System.IO.Directory.Exists( onePath ) )
+                            if (System.IO.Directory.Exists(onePath))
                             {
-                                fileList = System.IO.Directory.GetFiles( onePath, pattern );
+                                fileList = System.IO.Directory.GetFiles(onePath, pattern);
 
-                                for( int j = 0; j < fileList.Length; j++ )
+                                for (int j = 0; j < fileList.Length; j++)
                                 {
                                     countFoundFiles++;
 
                                     string fullFileName = fileList[j];
 
                                     // Get FileInfo
-                                    System.IO.FileInfo fi = new System.IO.FileInfo( fullFileName );
+                                    System.IO.FileInfo fi = new System.IO.FileInfo(fullFileName);
 
                                     string onlyFileName = fi.Name;
 
@@ -246,7 +250,7 @@ namespace OpPDir
                                     file.CrDate = fi.CreationTime;
                                     file.ModDate = fi.LastWriteTime;
 
-                                    listeFiles.Add( file );
+                                    listeFiles.Add(file);
                                 }
                             }
                             else
@@ -255,7 +259,7 @@ namespace OpPDir
                             }
                         }
                     }
-                    catch( Exception ex )
+                    catch (Exception ex)
                     {
                         error = "*** Error: " + ex.Message;
 
@@ -265,26 +269,29 @@ namespace OpPDir
 
                     // display Header-Path
                     bool dispLine = false;
-                    if( !exists ) {
+                    if (!exists)
+                    {
                         dispLine = true;
                     }
-                    if( listeFiles != null && listeFiles.Count > 0 ){
+                    if (listeFiles != null && listeFiles.Count > 0)
+                    {
                         dispLine = true;
                     }
 
                     // Debug-Test
                     //dispLine = true;
 
-                    if( dispLine){
-                        if( !exists )
+                    if (dispLine)
+                    {
+                        if (!exists)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                         }
-                        Console.WriteLine( disp );
+                        Console.WriteLine(disp);
                         Console.ResetColor();
                     }
 
-                    if( listeFiles != null && listeFiles.Count > 0 )
+                    if (listeFiles != null && listeFiles.Count > 0)
                     {
                         //if( !exists )
                         //{
@@ -293,7 +300,7 @@ namespace OpPDir
                         ////Console.WriteLine( disp );
                         //Console.ResetColor();
 
-                        for( int j = 0; j < listeFiles.Count; j++ )
+                        for (int j = 0; j < listeFiles.Count; j++)
                         {
                             File file = listeFiles[j];
                             string onlyFileName = file.Name;
@@ -303,46 +310,46 @@ namespace OpPDir
                             long size = file.Size;
 
                             string dispCnt2 = cnt2.ToString();
-                            string dispSize = size.ToString( "#,##0" );
+                            string dispSize = size.ToString("#,##0");
 
                             string dispFile = "";
                             dispFile = dispFile + "                      ";
-                            dispFile = dispFile + dispCnt2.PadLeft( _LEN_FILE, ' ' );
+                            dispFile = dispFile + dispCnt2.PadLeft(_LEN_FILE, ' ');
                             dispFile = dispFile + " ";
                             dispFile = dispFile + modDate.ToString();
                             dispFile = dispFile + " ";
-                            dispFile = dispFile + dispSize.PadLeft( 15, ' ' );  // 999.999.999.999
+                            dispFile = dispFile + dispSize.PadLeft(15, ' ');  // 999.999.999.999
                             dispFile = dispFile + " ";
                             dispFile = dispFile + onlyFileName;
-                            Console.WriteLine( dispFile );
+                            Console.WriteLine(dispFile);
                         }
                     }
                 }
-                Console.WriteLine( "-----------------------------------------------------------------------------" );
+                Console.WriteLine("-----------------------------------------------------------------------------");
 
                 string dispCntSum = countFoundFiles.ToString();
-                string dispSizeSum = sumSizeFoundFiles.ToString( "#,##0" );
+                string dispSizeSum = sumSizeFoundFiles.ToString("#,##0");
 
                 string summe = "";
                 summe = summe + "                      ";
-                summe = summe + dispCntSum.PadLeft( _LEN_FILE, ' ' );
+                summe = summe + dispCntSum.PadLeft(_LEN_FILE, ' ');
                 summe = summe + " Files found";
                 summe = summe + "         ";
-                summe = summe + dispSizeSum.PadLeft( 15, ' ' );
-                Console.WriteLine( summe );
+                summe = summe + dispSizeSum.PadLeft(15, ' ');
+                Console.WriteLine(summe);
             }
 
 
-            if( launchedFromStudio )
+            if (launchedFromStudio)
             {
                 // Pause
-                Console.WriteLine( "" );
-                Console.WriteLine( "[DEV] weiter mit einer Taste..." );
+                Console.WriteLine("");
+                Console.WriteLine("[DEV] weiter mit einer Taste...");
                 Console.ReadKey();
             }
 
             // Exit
-            System.Environment.Exit( 0 );
+            System.Environment.Exit(0);
         }
 
         public static void AddRDToVersion()
@@ -354,9 +361,9 @@ namespace OpPDir
 #endif
         }
 
-        public static void AddDEVToVersion( bool launchedFromStudio )
+        public static void AddDEVToVersion(bool launchedFromStudio)
         {
-            if( launchedFromStudio )
+            if (launchedFromStudio)
             {
                 VersionNumber += ".[DEV]";
             }
